@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "com.notnite.enderdragon.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "enderdragon",
+  "version": "${version}",
+  "name": "Ender Dragon",
+  "description": "Ghidra from the comfort of Minecraft",
+  "authors": [
+    "NotNite"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      {
+        "value": "com.notnite.enderdragon.EnderDragon",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "mixins": [
+    "enderdragon.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.7",
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "fabric-api": "*",
+    "fabric-language-kotlin": ">=1.9.22"
+  }
+}
