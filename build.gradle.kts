@@ -2,6 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.0"
     id("fabric-loom") version "1.5.7"
     id("maven-publish")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     java
 }
 
@@ -18,7 +19,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
 
-    modImplementation(files("./ghidra.jar"))
+    modImplementation(shadow(files("./ghidra.jar"))!!)
 }
 
 tasks {
@@ -40,6 +41,28 @@ tasks {
             expand(mapOf("version" to project.version))
         }
     }
+
+    jar {
+        enabled = false
+    }
+
+    shadowJar {
+        finalizedBy(remapJar)
+
+        from(sourceSets.main.get().output)
+
+        configurations = listOf(project.configurations.shadow.get())
+        archiveClassifier.set(jar.get().archiveClassifier)
+        destinationDirectory.set(jar.get().destinationDirectory)
+
+        dependencies {
+            //exclude(dependency("org.lwjgl:lwjgl"))
+        }
+    }
+
+    remapJar {
+        inputFile.set(shadowJar.get().archiveFile)
+    }
 }
 
 java {
@@ -52,8 +75,4 @@ publishing {
             from(components["java"])
         }
     }
-}
-
-loom {
-    accessWidenerPath = file("src/main/resources/enderdragon.accesswidener")
 }
